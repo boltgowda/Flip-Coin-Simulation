@@ -1,28 +1,26 @@
-#!/bin/bash 
-#CONSTANT
-HEAD=0
-#VARIABLES
-headCount=0
-tailCount=0
-#TO DECLARE DICTIONARY
-declare -A singletFlip
-#USER INPUT 
-read -p "Enter the Number of Coin Flip : " numberOfCoinFlip
-
-#TO STORE HEAD COUNT AND TAIL COUNT IN DICTIONARY
-for(( count=0; count<$numberOfCoinFlip; count++ ))
+#!/bin/bash
+read -p "Enter no of times to toss: " n
+heads_count=0
+tails_count=0
+for(( i = 1; i <= n; i++ ))
 do
-   FlipCoin=$(( RANDOM % 2 ))
-
-   if [ $FlipCoin -eq $HEAD ]
-   then
-      singletFlip[HEAD]=$((++headCount))
-   else
-      singletFlip[TAIL]=$((++tailCount))
-   fi
+    toss=$(( RANDOM % 2 ))
+    if(( toss == 0 ))
+    then
+        echo "Flip-$i Heads"
+        (( heads_count++ ))
+    else
+        echo "Flip-$i Tails"
+        (( tails_count++ ))
+    fi 
 done
-singletHeadPercentage=`echo "scale=2; $headCount * 100 / $numberOfCoinFlip" | bc`
-singletTailPercentage=`echo "scale=2; $tailCount *100 / $numberOfCoinFlip" | bc`
-
-echo "To single head percentage and head count:$headCount : " $singletHeadPercentage
-echo "To single tail percentage and tail count:$tailCount : " $singletTailPercentage
+echo "The Heads count is $heads_count and Tails Count is $tails_count"
+if(( heads_count > tails_count ))
+then
+    echo "Winner is Heads"
+elif(( tails_count > heads_count ))
+then
+    echo "Winner is Tails"
+else    
+    echo "Its tie"
+fi
